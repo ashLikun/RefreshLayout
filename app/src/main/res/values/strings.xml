@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">refreshlayout</string>
+    <string name="refresh_pull_max">已经到底啦!</string>
+    <string name="refresh_pull_refresh">正在加载.....</string>
+    <string name="refresh_pull_start">释放加载</string>
+    <string name="refresh_pull_init">下拉加载更多!</string>
+</resources>

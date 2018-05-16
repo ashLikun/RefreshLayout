@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ashlikun.refreshlayout.MainActivity">
+
+
+    <com.ashlikun.swiperefreshlayout.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recycle"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#aa00ff"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/aaaaa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffff0000"
+                    android:text="aaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaaa
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaaaaaaaaaaa
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.ashlikun.swiperefreshlayout.SwipeRefreshLayout>
+
+</LinearLayout>
