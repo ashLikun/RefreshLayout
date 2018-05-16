@@ -30,4 +30,4 @@ dependencies {
     api rootProject.ext.designVersion
     api 'com.android.support.constraint:constraint-layout:1.0.2'
 }
-apply from: '../maven.gradle'
+

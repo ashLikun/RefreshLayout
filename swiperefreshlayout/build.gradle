@@ -30,3 +30,4 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly rootProject.ext.v7AppCompat
 }
+apply from: '../maven.gradle'
