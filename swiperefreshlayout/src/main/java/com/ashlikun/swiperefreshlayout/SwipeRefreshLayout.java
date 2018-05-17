@@ -80,8 +80,19 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     private int mRefreshViewIndex = -1;
     protected int mFrom;//从什么位置移动
     boolean mNotify;//是否通知刷新回调
-    private int mOriginalOffsetTop;//原始偏移量 处了pinend是0 其他的就是下拉组件的高度的负数
-    private int mCurrentTargetOffsetTop;//当前target或者刷新组件距离顶部偏移量 == .getTop()
+    /**
+     * 刚开始时候刷新view距离顶部距离
+     */
+    private int mOriginalRefreshViewOffsetTop;
+    /**
+     * 当前target组件距离顶部偏移量 == .getTop()
+     * 如果是google风格的就是刷新view的偏移量
+     */
+    private int mCurrentTargetOffsetTop;
+    /**
+     * 记录非google风格的target底部padding
+     */
+    private int mTargetPaddingBottom = Integer.MAX_VALUE;
     /********************************************************************************************
      *                                           可设置的属性
      ********************************************************************************************/
@@ -110,7 +121,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
         mRefreshViewSize = (int) (DEFAULT_REFRESH_SIZE_DP * metrics.density);
         mTotalDragDistance = (int) (DEFAULT_REFRESH_TARGET_OFFSET_DP * metrics.density);
-        mOriginalOffsetTop = mCurrentTargetOffsetTop = 0;
+        mOriginalRefreshViewOffsetTop = mCurrentTargetOffsetTop = 0;
         //设置绘制子VIew的时候按照给定的顺序，getChildDrawingOrder
         setChildrenDrawingOrderEnabled(true);
 
@@ -144,7 +155,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
         switch (mRefreshStyle) {
             case FLOAT:
-                setTargetOffsetTopAndBottom(mOriginalOffsetTop - mCurrentTargetOffsetTop);
+                setTargetOffsetTopAndBottom(mOriginalRefreshViewOffsetTop - mCurrentTargetOffsetTop);
                 break;
             default:
                 setTargetOffsetTopAndBottom(-mCurrentTargetOffsetTop);
@@ -152,9 +163,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
         mIRefreshStatus.onReset();
         mIsBeingDragged = false;
-
-
-        mCurrentTargetOffsetTop = mRefreshView.getTop();
+        mTargetPaddingBottom = Integer.MAX_VALUE;
+        switch (mRefreshStyle) {
+            case FLOAT:
+                mCurrentTargetOffsetTop = mRefreshView.getTop();
+                break;
+            default:
+                mCurrentTargetOffsetTop = mTarget.getTop();
+                break;
+        }
     }
 
     /**
@@ -227,20 +244,22 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
         switch (mRefreshStyle) {
             case PINNED:
-                mCurrentTargetOffsetTop = mOriginalOffsetTop = 0;
+                mOriginalRefreshViewOffsetTop = 0;
+                mCurrentTargetOffsetTop = mTarget.getTop();
                 if (!mIsUseringTotalDragDistance && mTotalDragDistance != mRefreshView.getMeasuredHeight()) {
                     mTotalDragDistance = mRefreshView.getMeasuredHeight();
                 }
                 break;
             case FLOAT:
-                mCurrentTargetOffsetTop = mOriginalOffsetTop = -mRefreshView.getMeasuredHeight();
+                mOriginalRefreshViewOffsetTop = -mRefreshView.getMeasuredHeight();
+                mCurrentTargetOffsetTop = mRefreshView.getTop();
                 if (!mIsUseringTotalDragDistance && mTotalDragDistance < mRefreshView.getMeasuredHeight()) {
                     mTotalDragDistance = mRefreshView.getMeasuredHeight();
                 }
                 break;
             default:
-                mCurrentTargetOffsetTop = 0;
-                mOriginalOffsetTop = -mRefreshView.getMeasuredHeight();
+                mOriginalRefreshViewOffsetTop = -mRefreshView.getMeasuredHeight();
+                mCurrentTargetOffsetTop = mTarget.getTop();
                 if (!mIsUseringTotalDragDistance && mTotalDragDistance != mRefreshView.getMeasuredHeight()) {
                     mTotalDragDistance = mRefreshView.getMeasuredHeight();
                 }
@@ -304,10 +323,24 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         final int childTop = getPaddingTop();
         final int childRight = width - getPaddingRight();
         final int childchildBotton = height - getPaddingBottom();
-        //为Mtarget布局
-        mTarget.layout(childLeft, childTop, childRight, childchildBotton);
-        mRefreshView.layout((width / 2 - mRefreshView.getMeasuredWidth() / 2), mOriginalOffsetTop,
-                (width / 2 + mRefreshView.getMeasuredWidth() / 2), (mOriginalOffsetTop + mRefreshView.getMeasuredHeight()));
+        switch (mRefreshStyle) {
+            case FLOAT:
+                mTarget.layout(childLeft, childTop, childRight, childchildBotton);
+                //因为这种模式mCurrentTargetOffsetTop 就是mRefreshView的顶部
+                mRefreshView.layout((width / 2 - mRefreshView.getMeasuredWidth() / 2), mCurrentTargetOffsetTop,
+                        (width / 2 + mRefreshView.getMeasuredWidth() / 2), (mCurrentTargetOffsetTop + mRefreshView.getMeasuredHeight()));
+                break;
+            case PINNED:
+                mTarget.layout(childLeft, childTop + mCurrentTargetOffsetTop, childRight, childchildBotton + mCurrentTargetOffsetTop);
+                mRefreshView.layout((width / 2 - mRefreshView.getMeasuredWidth() / 2), mOriginalRefreshViewOffsetTop,
+                        (width / 2 + mRefreshView.getMeasuredWidth() / 2), (mOriginalRefreshViewOffsetTop + mRefreshView.getMeasuredHeight()));
+                break;
+            default:
+                mTarget.layout(childLeft, childTop + mCurrentTargetOffsetTop, childRight, childchildBotton + mCurrentTargetOffsetTop);
+                mRefreshView.layout((width / 2 - mRefreshView.getMeasuredWidth() / 2), mOriginalRefreshViewOffsetTop + mCurrentTargetOffsetTop,
+                        (width / 2 + mRefreshView.getMeasuredWidth() / 2), (mOriginalRefreshViewOffsetTop + mCurrentTargetOffsetTop + mRefreshView.getMeasuredHeight()));
+                break;
+        }
         mIsLayoutOk = true;
     }
 
@@ -371,7 +404,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         switch (action) {
             //按下时，记录按下的坐标Y与，pointerIndex
             case MotionEvent.ACTION_DOWN:
-                setTargetOffsetTopAndBottom(mOriginalOffsetTop - mRefreshView.getTop());
+                setTargetOffsetTopAndBottom(mOriginalRefreshViewOffsetTop - mRefreshView.getTop());
                 //激活的触摸点的id,只获取第一个触摸点按下的id
                 mActivePointerId = ev.getPointerId(0);
                 //开始拖拽复位
@@ -524,8 +557,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         float convertScrollOffset;
         if (!mRefreshing) {
             convertScrollOffset = distanceConverter(overscrollTop, mTotalDragDistance);
-            if (mRefreshStyle == FLOAT) {//只有FLOAT,NORMAL模式才会加上mOriginalOffsetTop
-                convertScrollOffset += mOriginalOffsetTop;
+            //只有FLOAT,NORMAL模式才会加上mOriginalOffsetTop
+            if (mRefreshStyle == FLOAT) {
+                convertScrollOffset += mOriginalRefreshViewOffsetTop;
             }
         } else {
             //The Float style will never come here
@@ -540,7 +574,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             }
 
         }
-        float moveDistance = convertScrollOffset - (mRefreshStyle == FLOAT ? mOriginalOffsetTop : 0);
+        float moveDistance = convertScrollOffset - (mRefreshStyle == FLOAT ? mOriginalRefreshViewOffsetTop : 0);
         if (!mRefreshing) {
             //已经拉到最大拖拽距离
             if (moveDistance > mTotalDragDistance && !mIsPullToRefresh) {
@@ -618,21 +652,29 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //  根据改变位置动画  移动位置
+    /**
+     * 根据改变位置动画  移动位置
+     */
     void moveCorrectPosition(float interpolatedTime) {
         int targetTop = 0;
         int offset = 0;
         switch (mRefreshStyle) {
             case FLOAT:
-                targetTop = mFrom + (int) ((mOriginalOffsetTop + mTotalDragDistance - mFrom) * interpolatedTime);
+                targetTop = mFrom + (int) ((mOriginalRefreshViewOffsetTop + mTotalDragDistance - mFrom) * interpolatedTime);
                 offset = targetTop - mRefreshView.getTop();
                 break;
             default:
+                if (mTargetPaddingBottom == Integer.MAX_VALUE) {
+                    mTargetPaddingBottom = mTarget.getPaddingBottom();
+                }
                 targetTop = mFrom + (int) ((mTotalDragDistance - mFrom) * interpolatedTime);
                 offset = targetTop - mTarget.getTop();
+                mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                        mTarget.getPaddingRight(), mTargetPaddingBottom + targetTop);
                 break;
         }
         setTargetOffsetTopAndBottom(offset);
+
     }
 
     //根据还原到开始动画   移动到初始位置
@@ -641,19 +683,26 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         int offset = 0;
         switch (mRefreshStyle) {
             case FLOAT:
-                targetTop = mFrom + (int) ((mOriginalOffsetTop - mFrom) * interpolatedTime);
+                targetTop = mFrom + (int) ((mOriginalRefreshViewOffsetTop - mFrom) * interpolatedTime);
                 offset = targetTop - mRefreshView.getTop();
                 break;
             default:
+                if (mTargetPaddingBottom == Integer.MAX_VALUE) {
+                    mTargetPaddingBottom = mTarget.getPaddingBottom();
+                }
                 targetTop = mFrom + (int) (-mFrom * interpolatedTime);
                 offset = targetTop - mTarget.getTop();
+                mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                        mTarget.getPaddingRight(), mTargetPaddingBottom + targetTop);
                 break;
         }
         setTargetOffsetTopAndBottom(offset);
     }
 
 
-    //设置下拉组件的偏移量
+    /**
+     * 设置下拉组件的偏移量
+     */
     void setTargetOffsetTopAndBottom(int offsetY) {
         switch (mRefreshStyle) {
             case FLOAT:
@@ -674,9 +723,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (!mRefreshing) {
             switch (mRefreshStyle) {
                 case FLOAT:
-                    mIRefreshStatus.onPullProgress(mCurrentTargetOffsetTop - mOriginalOffsetTop,
+                    mIRefreshStatus.onPullProgress(mCurrentTargetOffsetTop - mOriginalRefreshViewOffsetTop,
                             mTotalDragDistance,
-                            (mCurrentTargetOffsetTop - mOriginalOffsetTop) / mTotalDragDistance, mIsPullToRefresh);
+                            (mCurrentTargetOffsetTop - mOriginalRefreshViewOffsetTop) / mTotalDragDistance, mIsPullToRefresh);
                     break;
                 default:
                     mIRefreshStatus.onPullProgress(mCurrentTargetOffsetTop,
@@ -810,12 +859,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     //计算回弹动画时长
     private int computeAnimateToStartDuration(int from) {
-        if (from < mOriginalOffsetTop) {
+        if (from < mOriginalRefreshViewOffsetTop) {
             return 0;
         }
         switch (mRefreshStyle) {
             case FLOAT:
-                return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from - mOriginalOffsetTop) / mTotalDragDistance))
+                return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from - mOriginalRefreshViewOffsetTop) / mTotalDragDistance))
                         * mAnimateToStartDuration);
             default:
                 return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from) / mTotalDragDistance))
@@ -825,12 +874,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     //计算下拉动画时长
     private int computeAnimateToCorrectDuration(float from) {
-        if (from < mOriginalOffsetTop) {
+        if (from < mOriginalRefreshViewOffsetTop) {
             return 0;
         }
         switch (mRefreshStyle) {
             case FLOAT:
-                return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from - mOriginalOffsetTop - mTotalDragDistance) / mTotalDragDistance))
+                return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from - mOriginalRefreshViewOffsetTop - mTotalDragDistance) / mTotalDragDistance))
                         * mAnimateToRefreshDuration);
             default:
                 return (int) (Math.max(0.0f, Math.min(1.0f, Math.abs(from - mTotalDragDistance) / mTotalDragDistance))
@@ -941,7 +990,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     /********************************************************************************************
      *                                           动画
      ********************************************************************************************/
-    //调整刷新位置,到刷新的地方
+    /**
+     * 调整刷新位置,到刷新的地方
+     */
     private void animateOffsetToCorrectPosition(int from, AnimationListener listener) {
         if (computeAnimateToCorrectDuration(from) <= 0) {
             listener.onAnimationStart(null);
@@ -1022,7 +1073,14 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                         mListener.onRefresh();
                     }
                 }
-                mCurrentTargetOffsetTop = mRefreshView.getTop();
+                switch (mRefreshStyle) {
+                    case FLOAT:
+                        mCurrentTargetOffsetTop = mRefreshView.getTop();
+                        break;
+                    default:
+                        mCurrentTargetOffsetTop = mTarget.getTop();
+                        break;
+                }
             } else {
                 reset();
             }

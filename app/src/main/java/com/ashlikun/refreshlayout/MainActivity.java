@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ashlikun.swiperefreshlayout.SwipeRefreshLayout;
 
@@ -40,11 +41,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 refreshLayout.setRefreshView(new JlhRefreshView(getApplication()), new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
             }
         });
-        refreshLayout.setRefreshView(new JlhRefreshView(this),
+        refreshLayout.setRefreshView(new OgouRefreshView(this),
                 new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
                         SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.PINNED);
 //        refreshLayout.setRefreshing(true);
+        final View view = findViewById(R.id.aaaaa);
+        refreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.requestLayout();
+                Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
+                refreshLayout.postDelayed(this, 3000);
+            }
+        }, 3000);
     }
 
     @Override
