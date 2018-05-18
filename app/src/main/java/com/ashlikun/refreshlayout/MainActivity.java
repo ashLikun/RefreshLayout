@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ashlikun.swiperefreshlayout.SwipeRefreshLayout;
@@ -32,19 +31,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
-        findViewById(R.id.aaaaa).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  refreshLayout.setRefreshing(true);
-                refreshLayout.setRefreshView(new TestView(MainActivity.this)
-                        , new SwipeRefreshLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
-                refreshLayout.setRefreshView(new JlhRefreshView(getApplication()), new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-            }
-        });
+//        findViewById(R.id.aaaaa).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //  refreshLayout.setRefreshing(true);
+//                refreshLayout.setRefreshView(new TestView(MainActivity.this)
+//                        , new SwipeRefreshLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
+//                refreshLayout.setRefreshView(new JlhRefreshView(getApplication()), new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
+//            }
+//        });
         refreshLayout.setRefreshView(new OgouRefreshView(this),
                 new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
                         SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.PINNED);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
         refreshLayout.postDelayed(new Runnable() {

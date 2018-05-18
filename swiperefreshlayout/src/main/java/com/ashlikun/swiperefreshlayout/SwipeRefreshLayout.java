@@ -1009,6 +1009,11 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (listener != null) {
             mAnimateToCorrectPosition.setAnimationListener(listener);
         }
+        //防止动画没有执行完，padding设置错误
+        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                    mTarget.getPaddingRight(), mTargetPaddingBottom);
+        }
         clearAnimation();
         startAnimation(mAnimateToCorrectPosition);
     }
@@ -1026,6 +1031,11 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         mAnimateToStartPosition.setInterpolator(mDecelerateInterpolator);
         if (listener != null) {
             mAnimateToStartPosition.setAnimationListener(listener);
+        }
+        //防止动画没有执行完，padding设置错误
+        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                    mTarget.getPaddingRight(), mTargetPaddingBottom);
         }
         clearAnimation();
         startAnimation(mAnimateToStartPosition);
@@ -1053,7 +1063,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
-                mTargetPaddingBottom = Integer.MAX_VALUE;
+                if (mRefreshStyle != FLOAT) {
+                    mTargetPaddingBottom = Integer.MAX_VALUE;
+                }
             }
         }
     };
@@ -1068,6 +1080,19 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     private AnimationListener mRefreshListener = new XAnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
+            //防止下拉过快onPullProgress这个方法没有掉全
+            switch (mRefreshStyle) {
+                case FLOAT:
+                    mIRefreshStatus.onPullProgress(mTotalDragDistance,
+                            mTotalDragDistance,
+                            1, mIsPullToRefresh);
+                    break;
+                default:
+                    mIRefreshStatus.onPullProgress(mTotalDragDistance,
+                            mTotalDragDistance,
+                            1, mIsPullToRefresh);
+                    break;
+            }
             mIRefreshStatus.onRefreshing();
         }
 
@@ -1089,7 +1114,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
-                mTargetPaddingBottom = Integer.MAX_VALUE;
+                if (mRefreshStyle != FLOAT) {
+                    mTargetPaddingBottom = Integer.MAX_VALUE;
+                }
             }
         }
     };
