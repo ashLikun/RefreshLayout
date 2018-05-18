@@ -1,6 +1,5 @@
 package com.ashlikun.swiperefreshlayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
@@ -140,7 +139,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         setRefreshView(new MaterialRefreshView(getContext()), layoutParams);
     }
 
-    //检查刷新view是否实现了IRefreshStatus接口
+    /**
+     * 检查刷新view是否实现了IRefreshStatus接口
+     */
     private void refreshViewIsIRefreshStatus() {
         if (mRefreshView instanceof IRefreshStatus) {
             mIRefreshStatus = (IRefreshStatus) mRefreshView;
@@ -375,12 +376,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         ensureTarget();
 
         final int action = MotionEventCompat.getActionMasked(ev);
-        int pointerIndex;//触摸点下标
-
-        //如果不可用，或者mTarget没有达到顶部,或者真正刷新，
-        // 就不拦截事件,处理权交给子view
-
-
+        //触摸点下标
+        int pointerIndex;
+        //如果不可用，或者mTarget没有达到顶部,或者正在刷新，就不拦截事件,处理权交给子view
         if (!isEnabled() || canChildScrollUp()
                 || mRefreshing || mNestedScrollInProgress) {
             return false;
@@ -449,9 +447,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         final int action = MotionEventCompat.getActionMasked(ev);
-        int pointerIndex = -1;//触摸点下标
-        //如果不可用，或者mTarget没有达到顶部,或者真正刷新，
-        // 就不拦截事件,处理权交给子view
+        //触摸点下标
+        int pointerIndex = -1;
+        //如果不可用，或者mTarget没有达到顶部,或者正在刷新，就不拦截事件,处理权交给子view
         if (!isEnabled() || canChildScrollUp()
                 || mRefreshing || mNestedScrollInProgress) {
             return false;
@@ -587,7 +585,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (!mRefreshing) {
             //是否拉到最底部
             boolean isToBBottom = Math.abs(distanceConverter(Integer.MAX_VALUE, mTotalDragDistance) - moveDistance) < 20;
-            if (isToBBottom && !mIsPullToMaxBottom) {//已经拉到最大拖拽距离
+            //已经拉到最大拖拽距离
+            if (isToBBottom && !mIsPullToMaxBottom) {
                 mIsPullToMaxBottom = true;
                 mIRefreshStatus.onPullToMaxBottomStart();
             } else if (!isToBBottom && mIsPullToMaxBottom) {
@@ -598,12 +597,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         setTargetOffsetTopAndBottom((int) (convertScrollOffset - mCurrentTargetOffsetTop));
     }
 
-    //释放下拉组件
+    /**
+     * 释放下拉组件
+     */
     private void finishSpinner(float overscrollTop) {
         if (mIRefreshStatus != null) {
             mIRefreshStatus.onFinishSpinner(overscrollTop > mTotalDragDistance);
         }
-        if (overscrollTop > mTotalDragDistance) {//超过最大限制
+        //超过最大限制
+        if (overscrollTop > mTotalDragDistance) {
             //直接刷新
             setRefreshing(true, true /* notify */);
         } else {
@@ -639,8 +641,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
 
-    //开始拖拽
-    @SuppressLint("NewApi")
+    /**
+     * 开始拖拽
+     */
     private void startDragging(float y) {
         final float yDiff = y - mInitialDownY;
         //如果滑动的Y偏移量大于mTouchSlop（8） 并且此时没有开始拖拽
@@ -676,7 +679,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     }
 
-    //根据还原到开始动画   移动到初始位置
+    /**
+     * 根据还原到开始动画   移动到初始位置
+     */
     void moveToStart(float interpolatedTime) {
         int targetTop = 0;
         int offset = 0;
@@ -735,7 +740,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //当屏幕上有多个点被按住，松开其中一个点时触发（即非最后一个点被放开时）
+    /**
+     * 当屏幕上有多个点被按住，松开其中一个点时触发（即非最后一个点被放开时）
+     */
     private void onSecondaryPointerUp(MotionEvent ev) {
         final int pointerIndex = MotionEventCompat.getActionIndex(ev);
         final int pointerId = ev.getPointerId(pointerIndex);
@@ -790,6 +797,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
 
     public interface OnChildScrollUpCallback {
+        /**
+         * 作者　　: 李坤
+         * 创建时间: 2017/5/3 0003 15:32
+         * <p>
+         * 方法功能：mTarget在垂直方向（-1）是否可以滚动,可以滚动说明没到顶部呢
+         */
         boolean canChildScrollUp(SwipeRefreshLayout parent, @Nullable View child);
     }
 
@@ -815,8 +828,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     /**
-     * @return Whether the SwipeRefreshWidget is actively showing refresh
-     * progress.
+     * 是否正在积极显示刷新
      */
     public boolean isRefreshing() {
         return mRefreshing;
@@ -824,14 +836,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
 
     /**
-     * Notify the widget that refresh state has changed. Do not call this when
-     * refresh is triggered by a swipe gesture.
-     *
-     * @param refreshing Whether or not the view should show refresh progress.
+     * 通知小部件刷新状态已经更改。不要在
+     * 刷新是由一个滑动手势触发的。
      */
     public void setRefreshing(final boolean refreshing) {
         if (mIsLayoutOk) {
-            setRefreshing(refreshing, true /* notify */);
+            setRefreshing(refreshing, true);
         } else {
             postDelayed(new Runnable() {
                 @Override
@@ -842,7 +852,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //设置刷新状态
+    /**
+     * 设置刷新状态
+     */
     private void setRefreshing(boolean refreshing, final boolean notify) {
         if (mRefreshing != refreshing) {
             mNotify = notify;
@@ -856,7 +868,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //计算回弹动画时长
+    /**
+     * 计算回弹动画时长
+     */
     private int computeAnimateToStartDuration(int from) {
         if (from < mOriginalRefreshViewOffsetTop) {
             return 0;
@@ -871,7 +885,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //计算下拉动画时长
+    /**
+     * 计算下拉动画时长
+     */
     private int computeAnimateToCorrectDuration(float from) {
         if (from < mOriginalRefreshViewOffsetTop) {
             return 0;
@@ -958,7 +974,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     @Override
     public void requestDisallowInterceptTouchEvent(boolean b) {
-
         if ((android.os.Build.VERSION.SDK_INT < 21 && mTarget instanceof AbsListView)
                 || (mTarget != null && !ViewCompat.isNestedScrollingEnabled(mTarget))) {
         } else {
@@ -1042,7 +1057,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
 
-    //回滚动画
+    /**
+     * 回滚动画
+     */
     private final Animation mAnimateToStartPosition = new Animation() {
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
@@ -1050,7 +1067,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
         }
     };
-    //回滚动画监听
+    /**
+     * 回滚动画监听
+     */
     private final AnimationListener mResetListener = new XAnimationListener() {
         @Override
         public void onAnimationEnd(Animation animation) {
@@ -1069,14 +1088,18 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             }
         }
     };
-    //刷新动画
+    /**
+     * 刷新动画
+     */
     private final Animation mAnimateToCorrectPosition = new Animation() {
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
             moveCorrectPosition(interpolatedTime);
         }
     };
-    //刷新动画监听
+    /**
+     * 刷新动画监听
+     */
     private AnimationListener mRefreshListener = new XAnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
@@ -1121,57 +1144,55 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     };
 
-
-    private boolean isAnimationRunning(Animation animation) {
-        return animation != null && animation.hasStarted() && !animation.hasEnded();
-    }
-
     /********************************************************************************************
-     *                                            嵌套滑动 {@link NestedScrollingParent}
+     *                      嵌套滑动 {@link NestedScrollingParent}
      ********************************************************************************************/
     @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        boolean res = isEnabled() && !mRefreshing
-                && (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
-        if (res) {
+        if (isEnabled() && (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0) {
+            // Dispatch up to the nested parent
+            startNestedScroll(nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL);
+            return true;
         }
-        return res;
+        return false;
     }
 
     @Override
     public void onNestedScrollAccepted(View child, View target, int axes) {
         // Reset the counter of how much leftover scroll needs to be consumed.
         mNestedScrollingParentHelper.onNestedScrollAccepted(child, target, axes);
-        // Dispatch up to the nested parent
-        startNestedScroll(axes & ViewCompat.SCROLL_AXIS_VERTICAL);
-        mTotalUnconsumed = 0;
-        mNestedScrollInProgress = true;
+        if (!mRefreshing) {
+            // Dispatch up to the nested parent
+            startNestedScroll(axes & ViewCompat.SCROLL_AXIS_VERTICAL);
+            mTotalUnconsumed = 0;
+            mNestedScrollInProgress = true;
+        }
     }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         // If we are in the middle of consuming, a scroll, then we want to move the spinner back up
         // before allowing the list to scroll
-        if (dy > 0 && mTotalUnconsumed > 0) {
-            if (dy > mTotalUnconsumed) {
-                consumed[1] = dy - (int) mTotalUnconsumed;
-                mTotalUnconsumed = 0;
-            } else {
-                mTotalUnconsumed -= dy;
-                consumed[1] = dy;
+        if (!mRefreshing) {
+            if (dy > 0 && mTotalUnconsumed > 0) {
+                if (dy > mTotalUnconsumed) {
+                    consumed[1] = dy - (int) mTotalUnconsumed;
+                    mTotalUnconsumed = 0;
+                } else {
+                    mTotalUnconsumed -= dy;
+                    consumed[1] = dy;
+                }
+                moveSpinner(mTotalUnconsumed);
             }
-            moveSpinner(mTotalUnconsumed);
+            // If a client layout is using a custom start position for the circle
+            // view, they mean to hide it again before scrolling the child view
+            // If we get back to mTotalUnconsumed == 0 and there is more to go, hide
+            // the circle so it isn't exposed if its blocking content is moved
+            if (dy > 0 && mTotalUnconsumed == 0
+                    && Math.abs(dy - consumed[1]) > 0) {
+                mRefreshView.setVisibility(View.GONE);
+            }
         }
-
-        // If a client layout is using a custom start position for the circle
-        // view, they mean to hide it again before scrolling the child view
-        // If we get back to mTotalUnconsumed == 0 and there is more to go, hide
-        // the circle so it isn't exposed if its blocking content is moved
-        if (dy > 0 && mTotalUnconsumed == 0
-                && Math.abs(dy - consumed[1]) > 0) {
-            mRefreshView.setVisibility(View.GONE);
-        }
-
         // Now let our nested parent consume the leftovers
         final int[] parentConsumed = mParentScrollConsumed;
         if (dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
@@ -1188,13 +1209,13 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @Override
     public void onStopNestedScroll(View target) {
         mNestedScrollingParentHelper.onStopNestedScroll(target);
-        mNestedScrollInProgress = false;
-        // Finish the spinner for nested scrolling if we ever consumed any
-        // unconsumed nested scroll
-        mTotalUnconsumed = mTotalUnconsumed * DRAG_RATE;
-        if (mTotalUnconsumed > 0) {
-            finishSpinner(mTotalUnconsumed);
-            mTotalUnconsumed = 0;
+        if (!mRefreshing) {
+            mNestedScrollInProgress = false;
+            mTotalUnconsumed = mTotalUnconsumed * DRAG_RATE;
+            if (mTotalUnconsumed > 0) {
+                finishSpinner(mTotalUnconsumed);
+                mTotalUnconsumed = 0;
+            }
         }
         // Dispatch up our nested parent
         stopNestedScroll();
@@ -1203,15 +1224,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @Override
     public void onNestedScroll(final View target, final int dxConsumed, final int dyConsumed,
                                final int dxUnconsumed, final int dyUnconsumed) {
-        // Dispatch up to the nested parent first
+        // 首先向嵌套的双亲发送
         dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
                 mParentOffsetInWindow);
-
-        // This is a bit of a hack. Nested scrolling works from the bottom up, and as we are
-        // sometimes between two nested scrolling views, we need a way to be able to know when any
-        // nested scrolling parent has stopped handling events. We do that by using the
-        // 'offset in window 'functionality to see if we have been moved from the event.
-        // This is a decent indication of whether we should take over the event stream or not.
+        if (mRefreshing) {
+            return;
+        }
         final int dy = dyUnconsumed + mParentOffsetInWindow[1];
         if (dy < 0 && !canChildScrollUp()) {
             mTotalUnconsumed += Math.abs(dy);
@@ -1219,7 +1237,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    // NestedScrollingChild
 
     @Override
     public void setNestedScrollingEnabled(boolean enabled) {
