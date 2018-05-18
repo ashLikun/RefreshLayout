@@ -25,9 +25,6 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
     private static final float Y_OFFSET = 1.75f;
     private static final float SHADOW_RADIUS = 3.5f;
     private static final int SHADOW_ELEVATION = 4;
-    private static final int MAX_ARC_DEGREE = 330;
-    private static final int DEFAULT_START_DEGREES = 285;
-    private static final int DEFAULT_STROKE_WIDTH = 2;
 
 
     private int mShadowRadius;
