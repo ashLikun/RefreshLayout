@@ -163,7 +163,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
         mIRefreshStatus.onReset();
         mIsBeingDragged = false;
-        mTargetPaddingBottom = Integer.MAX_VALUE;
         switch (mRefreshStyle) {
             case FLOAT:
                 mCurrentTargetOffsetTop = mRefreshView.getTop();
@@ -1041,7 +1040,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
         }
     };
-    //复位动画监听
+    //回滚动画监听
     private final AnimationListener mResetListener = new XAnimationListener() {
         @Override
         public void onAnimationEnd(Animation animation) {
@@ -1054,7 +1053,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
+                mTargetPaddingBottom = Integer.MAX_VALUE;
             }
+        }
+    };
+    //刷新动画
+    private final Animation mAnimateToCorrectPosition = new Animation() {
+        @Override
+        public void applyTransformation(float interpolatedTime, Transformation t) {
+            moveCorrectPosition(interpolatedTime);
         }
     };
     //刷新动画监听
@@ -1064,7 +1071,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             mIRefreshStatus.onRefreshing();
         }
 
-        @SuppressLint("NewApi")
         @Override
         public void onAnimationEnd(Animation animation) {
             if (mRefreshing) {
@@ -1083,16 +1089,11 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
+                mTargetPaddingBottom = Integer.MAX_VALUE;
             }
         }
     };
 
-    private final Animation mAnimateToCorrectPosition = new Animation() {
-        @Override
-        public void applyTransformation(float interpolatedTime, Transformation t) {
-            moveCorrectPosition(interpolatedTime);
-        }
-    };
 
     private boolean isAnimationRunning(Animation animation) {
         return animation != null && animation.hasStarted() && !animation.hasEnded();

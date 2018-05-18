@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         refreshLayout.setRefreshView(new OgouRefreshView(this),
                 new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
                         SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.PINNED);
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
         refreshLayout.postDelayed(new Runnable() {

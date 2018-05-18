@@ -24,7 +24,7 @@ import java.util.List;
  * 创建时间: 2018/5/16 0016　下午 4:44
  * 邮箱　　：496546144@qq.com
  * <p>
- * 功能介绍：相对于新版刷新控件的刷新view
+ * 功能介绍：相对于新版刷新控件的刷新view,只适用于
  */
 public class OgouRefreshView extends View implements IRefreshStatus {
     //下拉图片
@@ -80,7 +80,7 @@ public class OgouRefreshView extends View implements IRefreshStatus {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        setPadding(0, dip2px(10), 0, dip2px(10));
+        setPadding(0, dip2px(14), 0, dip2px(10));
         logBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_loading);
         iconWidth = logBitmap.getWidth();
         iconHeight = logBitmap.getHeight();
@@ -137,7 +137,7 @@ public class OgouRefreshView extends View implements IRefreshStatus {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float offsetX = getWidth() / 2 - logBitmap.getWidth() / 2;
-        float offsetY = getPaddingBottom() - getHeight() * (1.0f - pullProgress * 0.7f) + (pullProgress == 0.0f ? 0 : getHeight() * 0.3f);
+        float offsetY = getPaddingBottom() - getHeight() * (1.0f - pullProgress * 0.78f) + (pullProgress == 0.0f ? 0 : getHeight() * 0.3f);
 
         if (offsetY >= getPaddingTop()) {
             offsetY = getPaddingTop();
