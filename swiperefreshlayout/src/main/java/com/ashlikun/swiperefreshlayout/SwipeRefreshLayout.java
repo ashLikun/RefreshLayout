@@ -150,10 +150,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
-    //复位
+    /**
+     * 复位
+     */
     void reset() {
         mRefreshView.setVisibility(View.GONE);
-
+        ensureTarget();
+        if (mTarget == null) {
+            return;
+        }
         switch (mRefreshStyle) {
             case FLOAT:
                 setTargetOffsetTopAndBottom(mOriginalRefreshViewOffsetTop - mCurrentTargetOffsetTop);
@@ -213,7 +218,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
 
-    //确保target不为null
+    /**
+     * 确保target不为null
+     */
     private void ensureTarget() {
         if (mTarget == null) {
             for (int i = 0; i < getChildCount(); i++) {
