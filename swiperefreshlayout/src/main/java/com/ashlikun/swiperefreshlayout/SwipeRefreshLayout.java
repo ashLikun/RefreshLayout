@@ -851,34 +851,37 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 刷新是由一个滑动手势触发的。
      */
     public void setRefreshing(final boolean refreshing) {
-        if (mIsLayoutOk) {
-            setRefreshing(refreshing, true);
-        } else {
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setRefreshing(refreshing);
-                }
-            }, 50);
-        }
+        setRefreshing(refreshing, true);
     }
 
     /**
      * 设置刷新状态
+     *
+     * @param notify 是否通知回调
      */
-    private void setRefreshing(boolean refreshing, final boolean notify) {
-        if (mRefreshing != refreshing) {
-            mNotify = notify;
-            ensureTarget();
-            mRefreshing = refreshing;
-            if (mRefreshing) {
-                mIsExteRefreshComplete = false;
-                animateOffsetToCorrectPosition(mCurrentTargetOffsetTop, mRefreshListener);
-            } else {
-                mIsExteRefreshComplete = true;
-                animateOffsetToStartPosition(mCurrentTargetOffsetTop, mResetListener);
+    public void setRefreshing(final boolean refreshing, final boolean notify) {
+        if (mIsLayoutOk) {
+            if (mRefreshing != refreshing) {
+                mNotify = notify;
+                ensureTarget();
+                mRefreshing = refreshing;
+                if (mRefreshing) {
+                    mIsExteRefreshComplete = false;
+                    animateOffsetToCorrectPosition(mCurrentTargetOffsetTop, mRefreshListener);
+                } else {
+                    mIsExteRefreshComplete = true;
+                    animateOffsetToStartPosition(mCurrentTargetOffsetTop, mResetListener);
+                }
             }
+        } else {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setRefreshing(refreshing, notify);
+                }
+            }, 50);
         }
+
     }
 
     /**
