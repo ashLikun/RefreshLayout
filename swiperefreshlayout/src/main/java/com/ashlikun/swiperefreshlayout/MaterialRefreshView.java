@@ -96,8 +96,9 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
 
     @Override
     public void onReset() {
-        drawable.setStartEndTrim(0, 0);
+//        drawable.setStartEndTrim(0, 0);
         drawable.showArrow(false);
+        drawable.setStartEndTrim(0f, 0.8f);
         drawable.setAlpha(0);
         drawable.stop();
     }

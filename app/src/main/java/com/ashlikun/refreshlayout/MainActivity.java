@@ -1,15 +1,11 @@
 package com.ashlikun.refreshlayout;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
+import com.ashlikun.swiperefreshlayout.MaterialRefreshView;
 import com.ashlikun.swiperefreshlayout.SwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -29,31 +25,30 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             list.add(i + "");
         }
 //        recyclerView = (RecyclerView) findViewById(R.id.recycle);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         refreshLayout.setOnRefreshListener(this);
         //refreshLayout.setTotalDragDistance(400);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
-        WebView webView = findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("http:") || url.startsWith("https:")) {
-                    view.loadUrl(url);
-                    return false;
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
-                    return true;
-                }
-            }
-        });
-        webView.loadUrl("http://www.baidu.com");
-        refreshLayout.setRefreshView(new OgouRefreshView(this),
-                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
-                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
+        // WebView webView = findViewById(R.id.webView);
+        // webView.getSettings().setJavaScriptEnabled(true);
+//        webView.setWebViewClient(new WebViewClient() {
+//
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                if (url.startsWith("http:") || url.startsWith("https:")) {
+//                    view.loadUrl(url);
+//                    return false;
+//                } else {
+////                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+////                    startActivity(intent);
+//                    return true;
+//                }
+//            }
+//        });
+//        webView.loadUrl("http://www.baidu.com");
+        refreshLayout.setRefreshView(new MaterialRefreshView(this), null);
         refreshLayout.setRefreshStyle(SwipeRefreshLayout.PINNED);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
@@ -76,6 +71,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
-        }, 30000);
+        }, 2000);
     }
 }

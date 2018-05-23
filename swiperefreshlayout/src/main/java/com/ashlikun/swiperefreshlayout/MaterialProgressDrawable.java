@@ -111,16 +111,16 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     /**
      * Layout info for the arrowhead in dp
      */
-    private static final int ARROW_WIDTH = 10;
-    private static final int ARROW_HEIGHT = 5;
-    private static final float ARROW_OFFSET_ANGLE = 5;
+    private static final int ARROW_WIDTH = 6;
+    private static final int ARROW_HEIGHT = 3;
+    private static final float ARROW_OFFSET_ANGLE = 3;
 
     /**
      * Layout info for the arrowhead for the large spinner in dp
      */
-    private static final int ARROW_WIDTH_LARGE = 12;
-    private static final int ARROW_HEIGHT_LARGE = 6;
-    private static final float MAX_PROGRESS_ARC = .8f;
+    private static final int ARROW_WIDTH_LARGE = 8;
+    private static final int ARROW_HEIGHT_LARGE = 4;
+    private static final float MAX_PROGRESS_ARC = .4f;
 
     private Resources mResources;
     private View mParent;
@@ -554,7 +554,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
             drawTriangle(c, startAngle, sweepAngle, bounds);
 
-            if (mAlpha < 255) {
+            if (mAlpha < 255 && Color.alpha(mBackgroundColor) > 0) {
                 mCirclePaint.setColor(mBackgroundColor);
                 mCirclePaint.setAlpha(255 - mAlpha);
                 c.drawCircle(bounds.exactCenterX(), bounds.exactCenterY(), bounds.width() / 2,
@@ -573,10 +573,9 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
                 // Adjust the position of the triangle so that it is inset as
                 // much as the arc, but also centered on the arc.
-                float inset = (int) mStrokeInset / 2 * mArrowScale;
+                float inset = (int) mArrowWidth / 2 * mArrowScale;
                 float x = (float) (mRingCenterRadius * Math.cos(0) + bounds.exactCenterX());
                 float y = (float) (mRingCenterRadius * Math.sin(0) + bounds.exactCenterY());
-
                 // Update the path each time. This works around an issue in SKIA
                 // where concatenating a rotation matrix to a scale matrix
                 // ignored a starting negative rotation. This appears to have
@@ -585,7 +584,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
                 mArrow.lineTo(mArrowWidth * mArrowScale, 0);
                 mArrow.lineTo((mArrowWidth * mArrowScale / 2), (mArrowHeight
                         * mArrowScale));
-                mArrow.offset(x - inset, y);
+                mArrow.offset(x - inset, y + inset);
                 mArrow.close();
                 // draw a triangle
                 mArrowPaint.setColor(mCurrentColor);
