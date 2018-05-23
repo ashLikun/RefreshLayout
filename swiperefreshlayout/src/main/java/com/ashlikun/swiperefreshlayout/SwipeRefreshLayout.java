@@ -104,6 +104,10 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     private int mRefreshViewSize;//默认的刷新view的大小
     private float mTotalDragDistance = -1;//最大拖拽距离,达到这个值就会处于可刷新状态,是宁界点
     private boolean mIsLayoutOk = false;
+    /**
+     * 是否是外部调用刷新完成
+     */
+    private boolean mIsExteRefreshComplete = false;
 
     private OnChildScrollUpCallback mChildScrollUpCallback;
 
@@ -731,7 +735,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
         }
         //回调刷新进度
-        if (!mRefreshing) {
+        if (!mRefreshing && !mIsExteRefreshComplete) {
             switch (mRefreshStyle) {
                 case FLOAT:
                     mIRefreshStatus.onPullProgress(mCurrentTargetOffsetTop - mOriginalRefreshViewOffsetTop,
@@ -868,8 +872,10 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             ensureTarget();
             mRefreshing = refreshing;
             if (mRefreshing) {
+                mIsExteRefreshComplete = false;
                 animateOffsetToCorrectPosition(mCurrentTargetOffsetTop, mRefreshListener);
             } else {
+                mIsExteRefreshComplete = true;
                 animateOffsetToStartPosition(mCurrentTargetOffsetTop, mResetListener);
             }
         }
@@ -1080,6 +1086,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     private final AnimationListener mResetListener = new XAnimationListener() {
         @Override
         public void onAnimationEnd(Animation animation) {
+            mIsExteRefreshComplete = false;
             if (mRefreshing) {
                 // Make sure the progress view is fully visible
                 if (mNotify) {

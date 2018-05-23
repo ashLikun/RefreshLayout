@@ -110,17 +110,19 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
     /**
      * Layout info for the arrowhead in dp
+     * 10,5,5
      */
-    private static final int ARROW_WIDTH = 6;
-    private static final int ARROW_HEIGHT = 3;
-    private static final float ARROW_OFFSET_ANGLE = 3;
+    private static final int ARROW_WIDTH = 8;
+    private static final int ARROW_HEIGHT = 4;
+    private static final float ARROW_OFFSET_ANGLE = 4;
 
     /**
      * Layout info for the arrowhead for the large spinner in dp
+     * 12,6,0.8
      */
-    private static final int ARROW_WIDTH_LARGE = 8;
-    private static final int ARROW_HEIGHT_LARGE = 4;
-    private static final float MAX_PROGRESS_ARC = .4f;
+    private static final int ARROW_WIDTH_LARGE = 10;
+    private static final int ARROW_HEIGHT_LARGE = 5;
+    private static final float MAX_PROGRESS_ARC = .6f;
 
     private Resources mResources;
     private View mParent;
