@@ -584,7 +584,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
                 mArrow.lineTo(mArrowWidth * mArrowScale, 0);
                 mArrow.lineTo((mArrowWidth * mArrowScale / 2), (mArrowHeight
                         * mArrowScale));
-                mArrow.offset(x - inset, y + inset);
+                mArrow.offset(x - inset, y);
                 mArrow.close();
                 // draw a triangle
                 mArrowPaint.setColor(mCurrentColor);

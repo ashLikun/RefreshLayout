@@ -98,13 +98,15 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
     public void onReset() {
 //        drawable.setStartEndTrim(0, 0);
         drawable.showArrow(false);
-        drawable.setStartEndTrim(0f, 0.8f);
+        drawable.setStartEndTrim(0f, 0f);
         drawable.setAlpha(0);
         drawable.stop();
     }
 
     @Override
     public void onRefreshing() {
+        drawable.showArrow(false);
+        drawable.setStartEndTrim(0f, 0f);
         drawable.setAlpha(255);
         drawable.start();
     }
@@ -125,16 +127,16 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
 
     @Override
     public void onPullProgress(float pullDistance, float totalDistance, float pullProgress, boolean isRefreshStart) {
-        drawable.showArrow(true);
-        drawable.setArrowScale(Math.min(1f, pullProgress));
-        drawable.setStartEndTrim(0f, Math.min(0.8f, pullProgress * 0.8f));
-        // Log.e("aaa", "pullProgress = " + pullProgress + "     pullDistance = " + pullDistance + "       totalDistance" + totalDistance);
-        if (isRefreshStart) {
-            drawable.setAlpha(255);
-            drawable.setProgressRotation(pullProgress);
-        } else {
-            drawable.setAlpha((int) Math.min(150, 150 * pullProgress));
-        }
+//        drawable.showArrow(true);
+//        drawable.setArrowScale(Math.min(1f, pullProgress));
+//        drawable.setStartEndTrim(0f, Math.min(0.8f, pullProgress * 0.8f));
+//        // Log.e("aaa", "pullProgress = " + pullProgress + "     pullDistance = " + pullDistance + "       totalDistance" + totalDistance);
+//        if (isRefreshStart) {
+//            drawable.setAlpha(255);
+//            drawable.setProgressRotation(pullProgress);
+//        } else {
+//            drawable.setAlpha((int) Math.min(150, 150 * pullProgress));
+//        }
 
     }
 
