@@ -19,53 +19,15 @@
         <!--android:id="@+id/recycle"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
-        <android.support.v4.widget.NestedScrollView
+        <com.ashlikun.refreshlayout.NestedScrollWebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#aa00ff"
             android:padding="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-
-                <TextView
-                    android:id="@+id/aaaaa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffff0000"
-                    android:text="aaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaaa
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    aaaaaaaaaaaaaaaaaaaaaaaa
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    android:textSize="20dp" />
-            </LinearLayout>
-
-
-        </android.support.v4.widget.NestedScrollView>
+        </com.ashlikun.refreshlayout.NestedScrollWebView>
 
     </com.ashlikun.swiperefreshlayout.SwipeRefreshLayout>
 

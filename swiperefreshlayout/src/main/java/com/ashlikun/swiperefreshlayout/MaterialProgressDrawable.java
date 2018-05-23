@@ -130,7 +130,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private double mHeight;
     boolean mFinishing;
 
-    MaterialProgressDrawable(Context context, View parent) {
+    public MaterialProgressDrawable(Context context, View parent) {
         mParent = parent;
         mResources = context.getResources();
 
@@ -250,6 +250,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
         mRing.setAlpha(alpha);
     }
 
+    @Override
     public int getAlpha() {
         return mRing.getAlpha();
     }
