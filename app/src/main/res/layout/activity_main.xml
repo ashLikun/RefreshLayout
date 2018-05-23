@@ -25,56 +25,27 @@
             android:layout_height="match_parent"
             android:background="#aa00ff"
             android:padding="20dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="　新华网记者 曹滢
-
-　　【学习进行时】党的十八大以来，以习近平同志为核心的党中央深刻回答了为什么建设生态文明、建设什么样的生态文明、怎样建设生态文明的重大理论和实践问题，提出了一系列新理念新思想新战略，形成了习近平生态文明思想，成为习近平新时代中国特色社会主义思想的重要组成部分。新华社《学习进行时》原创品牌栏目“讲习所”今天推出文章，为您解读。
-
-　　全国生态环境保护大会18日至19日在北京召开。中共中央总书记、国家主席、中央军委主席习近平出席会议并发表重要讲话。
-
-　　在新华社发布的消息中，有一句话特别值得关注，“要认真学习领会习近平生态文明思想”。
-
-　　这是继习近平新时代中国特色社会主义经济思想、习近平强军思想、习近平网络强国战略思想之后，在全国性会议上全面阐述、明确宣示的又一重要思想。
-
-　　“根本大计”——生态文明变革的深邃“历史观”
-
-　　“中华民族向来尊重自然、热爱自然，绵延5000多年的中华文明孕育着丰富的生态文化。”习近平生态文明思想深深根植于中华文明丰富的生态智慧和文化土壤，蕴含了深邃的历史观。
-
-　　“生态兴则文明兴，生态衰则文明衰。”习近平多次从人类历史发展的角度，对人与自然的关系、文明兴衰与民族命运、环境质量与人民福祉作阐述，他的表述通俗而深刻，将如何处理人类生产与自然环境的关系的认识论发展到了新高度，体现了对生态问题的历史责任感和整体发展观。
-
-　　习近平指出，生态文明建设是关系中华民族永续发展的根本大计。
-
-　　中国社会科学院生态文明研究智库理论部主任黄承梁认为，“根本大计”这一提法，是关于生态文明建设历史地位的新宣示，推动全社会对生态文明建设战略地位的认知发生历史性变化。
-
-　　习近平以历史的眼光对十八大以来的生态文明建设给予肯定：“开展一系列根本性、开创性、长远性工作”，“推动生态环境保护发生历史性、转折性、全局性变化”；对当前所处的历史阶段有着清醒把握，作出生态文明建设面临“三期叠加”这一重大判断。
-
-　　国务院发展研究中心资源与环境政策研究所副所长常纪文认为，“关键期”是对当前所处历史阶段做出的认识定位；“攻坚期”说明在当前全面建成小康社会进程中，更高的环境保护要求与经济社会正处于艰难协调发展的状况中。攻坚期同时也是重大机遇的“窗口期”，表明我们在这一阶段有条件、有能力解决生态环境突出问题。
-
-　　这里所说的“条件”是什么？常纪文说，就是我国社会主义制度能够集中力量办大事的政治优势，是改革开放40年来积累的坚实的物质基础，是经济由高速增长转向高质量发展带来的特定历史机遇。
-
-　　因此，我们必须“咬紧牙关，爬过这个坡，迈过这道坎”，在关口和困难面前不放松、加油干。
-
-　　这次大会进一步明确了到2035年、到本世纪中叶的“美丽中国”建设蓝图：确保到2035年，生态环境质量实现根本好转，美丽中国目标基本实现。到本世纪中叶，物质文明、政治文明、精神文明、社会文明、生态文明全面提升，绿色发展方式和生活方式全面形成，人与自然和谐共生，生态环境领域国家治理体系和治理能力现代化全面实现，建成美丽中国。
-
-　　这是一个明确的“时间表”。
-
-　　联结历史与现实，我们看到，中国正在经历最大规模、最为深刻的生态文明变革，中国社会正在向生态文明社会全面转型。
-
-　　“最普惠的民生福祉”——以人民为中心的“本质论”
-
-　　习近平指出，良好生态环境是最普惠的民生福祉。要坚持生态惠民、生态利民、生态为民，重点解决损害群众健康的突出环境问题，不断满足人民日益增长的优美生态环境需要。
-
-　　“最普惠的民生福祉”是习近平生态文明思想的重要宗旨，是生态文明建设的“本质论”，体现出深厚的民生情怀和强烈的责任担当。
-
-　　在全面建成小康社会的进程中，习近平始终强调，“小康全不全面，生态环境质量是关键”。在2018年4月2日中央财经委员会第一次会议上，他指出：“环境问题是全社会关注的焦点，也是全面建成小康社会能否得到人民认可的一个关键，要坚决打好打胜这场攻坚战。”
-
-　　我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。生态产品短缺已经成为影响全面建成小康社会的“短板”。大力推进生态文明建设就是着眼新时代社会主要矛盾变化，不断满足人民日益增长的美好生活需要，为人民群众提供更多优质生态产品。"
-                    />
+                    android:text="aaaaaaaaaaaaaaaaaaassss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
+                    aaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssss" />
 
             </LinearLayout>
 
