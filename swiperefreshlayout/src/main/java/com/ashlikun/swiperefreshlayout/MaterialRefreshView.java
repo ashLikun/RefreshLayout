@@ -127,16 +127,16 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
 
     @Override
     public void onPullProgress(float pullDistance, float totalDistance, float pullProgress, boolean isRefreshStart) {
-//        drawable.showArrow(true);
-//        drawable.setArrowScale(Math.min(1f, pullProgress));
-//        drawable.setStartEndTrim(0f, Math.min(0.8f, pullProgress * 0.8f));
-//        // Log.e("aaa", "pullProgress = " + pullProgress + "     pullDistance = " + pullDistance + "       totalDistance" + totalDistance);
-//        if (isRefreshStart) {
-//            drawable.setAlpha(255);
-//            drawable.setProgressRotation(pullProgress);
-//        } else {
-//            drawable.setAlpha((int) Math.min(150, 150 * pullProgress));
-//        }
+        drawable.showArrow(true);
+        drawable.setArrowScale(Math.min(1f, pullProgress));
+        drawable.setStartEndTrim(0f, Math.min(0.8f, pullProgress * 0.8f));
+        // Log.e("aaa", "pullProgress = " + pullProgress + "     pullDistance = " + pullDistance + "       totalDistance" + totalDistance);
+        if (isRefreshStart) {
+            drawable.setAlpha(255);
+            drawable.setProgressRotation(pullProgress);
+        } else {
+            drawable.setAlpha((int) Math.min(150, 150 * pullProgress));
+        }
 
     }
 
