@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.ashlikun.swiperefreshlayout.MaterialRefreshView;
 import com.ashlikun.swiperefreshlayout.SwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
 //        recyclerView = (RecyclerView) findViewById(R.id.recycle);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        refreshLayout.setMaxDragDistance(1280);
         refreshLayout.setOnRefreshListener(this);
         //refreshLayout.setTotalDragDistance(400);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,8 +48,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //            }
 //        });
 //        webView.loadUrl("http://www.baidu.com");
-        refreshLayout.setRefreshView(new MaterialRefreshView(this), null);
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.PINNED);
+        refreshLayout.setRefreshView(new NewVersionRefreshView(this),
+                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
+                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
         refreshLayout.postDelayed(new Runnable() {
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
 //                refreshLayout.postDelayed(this, 3000);
             }
-        }, 3000);
+        }, 1000);
 //        refreshLayout.setRefreshing(true);
     }
 
@@ -71,6 +73,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
-        }, 2000);
+        }, 700);
     }
 }

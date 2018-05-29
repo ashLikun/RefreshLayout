@@ -95,14 +95,30 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     /********************************************************************************************
      *                                           可设置的属性
      ********************************************************************************************/
-    //刷新的风格
+    /**
+     * 刷新的风格
+     */
     private int mRefreshStyle = NORMAL;
-    //刷新的状态
+    /**
+     * 刷新的状态
+     */
     private IRefreshStatus mIRefreshStatus;
-    //下拉组件
+    /**
+     * 下拉组件
+     */
     private View mRefreshView;
-    private int mRefreshViewSize;//默认的刷新view的大小
-    private float mTotalDragDistance = -1;//最大拖拽距离,达到这个值就会处于可刷新状态,是宁界点
+    /**
+     * 默认的刷新view的大小
+     */
+    private int mRefreshViewSize;
+    /**
+     * 最大拖拽距离,达到这个值就会处于可刷新状态,是宁界点
+     */
+    private float mTotalDragDistance = -1;
+    /**
+     * 极限最大距离
+     */
+    private float mMaxDragDistance = -1;
     private boolean mIsLayoutOk = false;
     /**
      * 是否是外部调用刷新完成
@@ -564,7 +580,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
         float convertScrollOffset;
         if (!mRefreshing) {
-            convertScrollOffset = distanceConverter(overscrollTop, mTotalDragDistance);
+            convertScrollOffset = distanceConverter(overscrollTop);
             //只有FLOAT,NORMAL模式才会加上mOriginalOffsetTop
             if (mRefreshStyle == FLOAT) {
                 convertScrollOffset += mOriginalRefreshViewOffsetTop;
@@ -595,7 +611,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
         if (!mRefreshing) {
             //是否拉到最底部
-            boolean isToBBottom = Math.abs(distanceConverter(Integer.MAX_VALUE, mTotalDragDistance) - moveDistance) < 20;
+            boolean isToBBottom = Math.abs(distanceConverter(Integer.MAX_VALUE) - moveDistance) < 20;
             //已经拉到最大拖拽距离
             if (isToBBottom && !mIsPullToMaxBottom) {
                 mIsPullToMaxBottom = true;
@@ -633,21 +649,26 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * <p>
      * 方法功能：距离转化器
      * moveSpinner方法调用
+     *
+     * @param overscrollTop 下拉总高度
      */
-    private float distanceConverter(float overscrollTop, float refreshDistance) {
-        //原始拖拽百分比 拖拽中高低/最大拖拽距离
-        float originalDragPercent = overscrollTop / refreshDistance;
+    private float distanceConverter(float overscrollTop) {
+        //原始拖拽百分比 可能大于1，到达零界点就是1
+        float originalDragPercent = overscrollTop / mTotalDragDistance;
         //拖拽百分比 （0,1），确保不会大于1
         float dragPercent = Math.min(1f, Math.abs(originalDragPercent));
-        float extraOS = Math.abs(overscrollTop) - refreshDistance;
-        float slingshotDist = refreshDistance;
-        float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, slingshotDist * 2)
-                / slingshotDist);
+        //距离零界点的值，可能为负数（没有达到零界点）
+        float extraOS = Math.abs(overscrollTop) - mTotalDragDistance;
+        float maxDragDistance = mMaxDragDistance > mTotalDragDistance ? mMaxDragDistance : mTotalDragDistance;
+        //距离零界点的百分比
+        float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, maxDragDistance * 2)
+                / maxDragDistance);
+        //这里模拟越靠近上面越慢
         float tensionPercent = (float) ((tensionSlingshotPercent / 4) - Math.pow(
                 (tensionSlingshotPercent / 4), 2)) * 2f;
-        float extraMove = (slingshotDist) * tensionPercent * 2;
-
-        int targetY = (int) ((slingshotDist * dragPercent) + extraMove);
+        //多余的下拉距离
+        float extraMove = maxDragDistance * tensionPercent * 2;
+        int targetY = (int) ((mTotalDragDistance * dragPercent) + extraMove);
         return targetY;
     }
 
@@ -828,10 +849,22 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     /**
+     * @author　　: 李坤
+     * 创建时间: 2018/5/29 0029 下午 2:06
+     * 邮箱　　：496546144@qq.com
+     * <p>
+     * 方法功能：设置极限最大距离
+     */
+
+    public void setMaxDragDistance(float mMaxDragDistance) {
+        this.mMaxDragDistance = mMaxDragDistance - mTotalDragDistance;
+    }
+
+    /**
      * 作者　　: 李坤
      * 创建时间: 2017/5/6 0006 22:12
      * <p>
-     * 方法功能：设置最大下拉距离
+     * 方法功能：设置最大下拉距离,达到这个值就会处于可刷新状态,是宁界点
      */
     public void setTotalDragDistance(float mTotalDragDistance) {
         mIsUseringTotalDragDistance = true;
@@ -919,8 +952,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     /**
-     * Set the listener to be notified when a refresh is triggered via the swipe
-     * gesture.
+     * 设置刷新监听
      *
      * @param listener
      */
@@ -929,10 +961,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     }
 
     /**
-     * Set a callback to override {@link SwipeRefreshLayout#canChildScrollUp()} method. Non-null
-     * callback will return the value provided by the callback and ignore all internal logic.
-     *
-     * @param callback Callback that should be called when canChildScrollUp() is called.
+     * {@link SwipeRefreshLayout#canChildScrollUp()}
+     * mTarget在垂直方向（-1）是否可以滚动,可以滚动说明没到顶部呢
      */
     public void setOnChildScrollUpCallback(@Nullable OnChildScrollUpCallback callback) {
         mChildScrollUpCallback = callback;
@@ -1021,7 +1051,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      *                                           动画
      ********************************************************************************************/
     /**
-     * 调整刷新位置,到刷新的地方
+     * 刷新动画创建,到刷新的地方
      */
     private void animateOffsetToCorrectPosition(int from, AnimationListener listener) {
         if (computeAnimateToCorrectDuration(from) <= 0) {
@@ -1049,64 +1079,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         startAnimation(mAnimateToCorrectPosition);
     }
 
-    //回滚动画
-    private void animateOffsetToStartPosition(int from, AnimationListener listener) {
-        if (computeAnimateToStartDuration(from) <= 0) {
-            listener.onAnimationStart(null);
-            listener.onAnimationEnd(null);
-            return;
-        }
-        mFrom = from;
-        mAnimateToStartPosition.reset();
-        mAnimateToStartPosition.setDuration(computeAnimateToStartDuration(from));
-        mAnimateToStartPosition.setInterpolator(mDecelerateInterpolator);
-        if (listener != null) {
-            mAnimateToStartPosition.setAnimationListener(listener);
-        }
-        //防止动画没有执行完，padding设置错误
-        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
-            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
-                    mTarget.getPaddingRight(), mTargetPaddingBottom);
-        }
-        clearAnimation();
-        startAnimation(mAnimateToStartPosition);
-    }
-
-
     /**
-     * 回滚动画
-     */
-    private final Animation mAnimateToStartPosition = new Animation() {
-        @Override
-        public void applyTransformation(float interpolatedTime, Transformation t) {
-            moveToStart(interpolatedTime);
-
-        }
-    };
-    /**
-     * 回滚动画监听
-     */
-    private final AnimationListener mResetListener = new XAnimationListener() {
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            mIsExteRefreshComplete = false;
-            if (mRefreshing) {
-                // Make sure the progress view is fully visible
-                if (mNotify) {
-                    if (mListener != null) {
-                        mListener.onRefresh();
-                    }
-                }
-            } else {
-                reset();
-                if (mRefreshStyle != FLOAT) {
-                    mTargetPaddingBottom = Integer.MAX_VALUE;
-                }
-            }
-        }
-    };
-    /**
-     * 刷新动画
+     * 刷新动画执行
      */
     private final Animation mAnimateToCorrectPosition = new Animation() {
         @Override
@@ -1161,6 +1135,66 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     };
 
+    /**
+     * 回滚动画创建
+     */
+    private void animateOffsetToStartPosition(int from, AnimationListener listener) {
+        if (computeAnimateToStartDuration(from) <= 0) {
+            listener.onAnimationStart(null);
+            listener.onAnimationEnd(null);
+            return;
+        }
+        mFrom = from;
+        mAnimateToStartPosition.reset();
+        mAnimateToStartPosition.setDuration(computeAnimateToStartDuration(from));
+        mAnimateToStartPosition.setInterpolator(mDecelerateInterpolator);
+        if (listener != null) {
+            mAnimateToStartPosition.setAnimationListener(listener);
+        }
+        //防止动画没有执行完，padding设置错误
+        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                    mTarget.getPaddingRight(), mTargetPaddingBottom);
+        }
+        clearAnimation();
+        startAnimation(mAnimateToStartPosition);
+    }
+
+
+    /**
+     * 回滚动画执行
+     */
+    private final Animation mAnimateToStartPosition = new Animation() {
+        @Override
+        public void applyTransformation(float interpolatedTime, Transformation t) {
+            moveToStart(interpolatedTime);
+
+        }
+    };
+    /**
+     * 回滚动画监听
+     */
+    private final AnimationListener mResetListener = new XAnimationListener() {
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            mIsExteRefreshComplete = false;
+            if (mRefreshing) {
+                // Make sure the progress view is fully visible
+                if (mNotify) {
+                    if (mListener != null) {
+                        mListener.onRefresh();
+                    }
+                }
+            } else {
+                reset();
+                if (mRefreshStyle != FLOAT) {
+                    mTargetPaddingBottom = Integer.MAX_VALUE;
+                }
+            }
+        }
+    };
+
+
     /********************************************************************************************
      *                      嵌套滑动 {@link NestedScrollingParent}
      ********************************************************************************************/
@@ -1188,8 +1222,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-        // If we are in the middle of consuming, a scroll, then we want to move the spinner back up
-        // before allowing the list to scroll
         if (!mRefreshing) {
             if (dy > 0 && mTotalUnconsumed > 0) {
                 if (dy > mTotalUnconsumed) {
@@ -1201,16 +1233,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
                 moveSpinner(mTotalUnconsumed);
             }
-            // If a client layout is using a custom start position for the circle
-            // view, they mean to hide it again before scrolling the child view
-            // If we get back to mTotalUnconsumed == 0 and there is more to go, hide
-            // the circle so it isn't exposed if its blocking content is moved
             if (dy > 0 && mTotalUnconsumed == 0
                     && Math.abs(dy - consumed[1]) > 0) {
                 mRefreshView.setVisibility(View.GONE);
             }
         }
-        // Now let our nested parent consume the leftovers
+        // 父元素消耗
         final int[] parentConsumed = mParentScrollConsumed;
         if (dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], parentConsumed, null)) {
             consumed[0] += parentConsumed[0];
@@ -1234,14 +1262,14 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 mTotalUnconsumed = 0;
             }
         }
-        // Dispatch up our nested parent
+        // 派发给父元素
         stopNestedScroll();
     }
 
     @Override
     public void onNestedScroll(final View target, final int dxConsumed, final int dyConsumed,
                                final int dxUnconsumed, final int dyUnconsumed) {
-        // 首先向嵌套的双亲发送
+        // 派发给父元素
         dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
                 mParentOffsetInWindow);
         if (mRefreshing) {
