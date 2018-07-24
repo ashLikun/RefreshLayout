@@ -75,4 +75,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         }, 700);
     }
+
+    public void onClick(View view) {
+        refreshLayout.setRefreshing(true);
+        refreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(false);
+            }
+        }, 15);
+    }
 }

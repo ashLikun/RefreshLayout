@@ -1054,21 +1054,11 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 刷新动画创建,到刷新的地方
      */
     private void animateOffsetToCorrectPosition(int from, AnimationListener listener) {
-        if (computeAnimateToCorrectDuration(from) <= 0) {
-            listener.onAnimationStart(null);
-            listener.onAnimationEnd(null);
-            return;
-        }
         if (mRefreshView.getVisibility() != VISIBLE) {
             mRefreshView.setVisibility(VISIBLE);
         }
-
-        mFrom = from;
-        mAnimateToCorrectPosition.reset();
-        mAnimateToCorrectPosition.setDuration(ANIMATE_TO_TRIGGER_DURATION);
-        mAnimateToCorrectPosition.setInterpolator(mDecelerateInterpolator);
-        if (listener != null) {
-            mAnimateToCorrectPosition.setAnimationListener(listener);
+        if (getAnimation() != null) {
+            getAnimation().cancel();
         }
         //防止动画没有执行完，padding设置错误
         if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
@@ -1076,6 +1066,18 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                     mTarget.getPaddingRight(), mTargetPaddingBottom);
         }
         clearAnimation();
+        if (computeAnimateToCorrectDuration(from) <= 0) {
+            listener.onAnimationStart(null);
+            listener.onAnimationEnd(null);
+            return;
+        }
+        mFrom = from;
+        mAnimateToCorrectPosition.reset();
+        mAnimateToCorrectPosition.setDuration(computeAnimateToCorrectDuration(from));
+        mAnimateToCorrectPosition.setInterpolator(mDecelerateInterpolator);
+        if (listener != null) {
+            mAnimateToCorrectPosition.setAnimationListener(listener);
+        }
         startAnimation(mAnimateToCorrectPosition);
     }
 
@@ -1139,6 +1141,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 回滚动画创建
      */
     private void animateOffsetToStartPosition(int from, AnimationListener listener) {
+        if (getAnimation() != null) {
+            getAnimation().cancel();
+        }
+        //防止动画没有执行完，padding设置错误
+        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                    mTarget.getPaddingRight(), mTargetPaddingBottom);
+        }
+        clearAnimation();
         if (computeAnimateToStartDuration(from) <= 0) {
             listener.onAnimationStart(null);
             listener.onAnimationEnd(null);
@@ -1151,12 +1162,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (listener != null) {
             mAnimateToStartPosition.setAnimationListener(listener);
         }
-        //防止动画没有执行完，padding设置错误
-        if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
-            mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
-                    mTarget.getPaddingRight(), mTargetPaddingBottom);
-        }
-        clearAnimation();
         startAnimation(mAnimateToStartPosition);
     }
 
