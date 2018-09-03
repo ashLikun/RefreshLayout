@@ -382,11 +382,15 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (mChildScrollUpCallback != null) {
             return mChildScrollUpCallback.canChildScrollUp(this, mTarget);
         }
-        if (mTarget instanceof CoordinatorLayout) {
-            //兼容CoordinatorLayout
-            if (((CoordinatorLayout) mTarget).getChildCount() > 0) {
-                return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() == 0;
+        try {
+            if (mTarget instanceof CoordinatorLayout) {
+                //兼容CoordinatorLayout
+                if (((CoordinatorLayout) mTarget).getChildCount() > 0) {
+                    return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() == 0;
+                }
             }
+        } catch (Exception e) {
+
         }
         return mTarget.canScrollVertically(-1);
     }
