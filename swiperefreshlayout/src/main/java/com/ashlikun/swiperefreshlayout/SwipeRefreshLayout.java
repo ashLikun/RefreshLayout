@@ -2,6 +2,7 @@ package com.ashlikun.swiperefreshlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
@@ -97,7 +98,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     /**
      * 刷新的风格
      */
-    private int mRefreshStyle = NORMAL;
+    private int mRefreshStyle = FLOAT;
     /**
      * 刷新的状态
      */
@@ -153,7 +154,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         initRefreshView();
     }
 
-    private void initRefreshView() {
+    protected void initRefreshView() {
         LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         setRefreshView(new MaterialRefreshView(getContext()), layoutParams);
     }
@@ -1022,6 +1023,28 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         super.setEnabled(enabled);
         if (!enabled) {
             reset();
+        }
+    }
+
+    /**
+     * 当是Google风格的时候设置圆圈颜色
+     *
+     * @param colors
+     */
+    public void setColorSchemeColors(@ColorInt int... colors) {
+        if (mRefreshView instanceof MaterialRefreshView) {
+            ((MaterialRefreshView) mRefreshView).setColorSchemeColors(colors);
+        }
+    }
+
+    /**
+     * 当是Google风格的时候设置圆圈背景
+     *
+     * @param color
+     */
+    public void setProgressBackgroundColorSchemeColor(@ColorInt int color) {
+        if (mRefreshView instanceof MaterialRefreshView) {
+            ((MaterialRefreshView) mRefreshView).setProgressBackgroundColorSchemeColor(color);
         }
     }
 

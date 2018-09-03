@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
 //        recyclerView = (RecyclerView) findViewById(R.id.recycle);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        refreshLayout.setMaxDragDistance(1280);
         refreshLayout.setOnRefreshListener(this);
         //refreshLayout.setTotalDragDistance(400);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,10 +47,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //            }
 //        });
 //        webView.loadUrl("http://www.baidu.com");
-        refreshLayout.setRefreshView(new NewVersionRefreshView(this),
-                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
-                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
+//        refreshLayout.setRefreshView(new NewVersionRefreshView(this),
+//                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
+//                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.FLOAT);
+        refreshLayout.setColorSchemeColors(0xff234567, 0xff1129f9, 0xff345678);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
         refreshLayout.postDelayed(new Runnable() {

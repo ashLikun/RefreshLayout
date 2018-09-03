@@ -8,6 +8,7 @@ import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -51,10 +52,22 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
         drawable.setBackgroundColor(CIRCLE_BG_LIGHT);
 
         drawable.setStartEndTrim(0, 0.8f);
-        drawable.setColorSchemeColors(0xffff0000);
+        drawable.setColorSchemeColors(0xff000000);
         setImageDrawable(drawable);
     }
 
+    public void setColorSchemeColors(int... colors) {
+        drawable.setColorSchemeColors(colors);
+    }
+
+    /**
+     * Set the background color of the progress spinner disc.
+     *
+     * @param color
+     */
+    public void setProgressBackgroundColorSchemeColor(@ColorInt int color) {
+        drawable.setBackgroundColor(color);
+    }
 
     private void initPaint() {
     }
@@ -96,7 +109,6 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
 
     @Override
     public void onReset() {
-//        drawable.setStartEndTrim(0, 0);
         drawable.showArrow(false);
         drawable.setStartEndTrim(0f, 0f);
         drawable.setAlpha(0);
@@ -130,7 +142,6 @@ public class MaterialRefreshView extends AppCompatImageView implements IRefreshS
         drawable.showArrow(true);
         drawable.setArrowScale(Math.min(1f, pullProgress));
         drawable.setStartEndTrim(0f, Math.min(0.8f, pullProgress * 0.8f));
-        // Log.e("aaa", "pullProgress = " + pullProgress + "     pullDistance = " + pullDistance + "       totalDistance" + totalDistance);
         if (isRefreshStart) {
             drawable.setAlpha(255);
             drawable.setProgressRotation(pullProgress);
