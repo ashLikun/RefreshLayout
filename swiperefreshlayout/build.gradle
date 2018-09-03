@@ -28,6 +28,6 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly rootProject.ext.v7AppCompat
+    compileOnly rootProject.ext.designVersion
 }
 apply from: '../maven.gradle'

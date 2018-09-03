@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.view.MotionEventCompat;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
@@ -28,7 +28,6 @@ import android.widget.AbsListView;
  * <p>
  * 方法功能：下拉刷新,改之官方的SwipeRefreshLayout
  */
-
 public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingParent,
         NestedScrollingChild {
     public static final int NORMAL = 1;//正常模式，类似于QQ
@@ -383,18 +382,13 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (mChildScrollUpCallback != null) {
             return mChildScrollUpCallback.canChildScrollUp(this, mTarget);
         }
-        if (android.os.Build.VERSION.SDK_INT < 14) {
-            if (mTarget instanceof AbsListView) {
-                final AbsListView absListView = (AbsListView) mTarget;
-                return absListView.getChildCount() > 0
-                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
-                        .getTop() < absListView.getPaddingTop());
-            } else {
-                return ViewCompat.canScrollVertically(mTarget, -1) || mTarget.getScrollY() > 0;
+        if (mTarget instanceof CoordinatorLayout) {
+            //兼容CoordinatorLayout
+            if (((CoordinatorLayout) mTarget).getChildCount() > 0) {
+                return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() == 0;
             }
-        } else {
-            return ViewCompat.canScrollVertically(mTarget, -1);
         }
+        return mTarget.canScrollVertically(-1);
     }
 
 
@@ -402,7 +396,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         ensureTarget();
 
-        final int action = MotionEventCompat.getActionMasked(ev);
+        final int action = ev.getAction();
         //触摸点下标
         int pointerIndex;
         //如果不可用，或者mTarget没有达到顶部,或者正在刷新，就不拦截事件,处理权交给子view
@@ -455,7 +449,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 startDragging(ev.getY(pointerIndex));
                 break;
             //当屏幕上有多个点被按住，松开其中一个点时触发（即非最后一个点被放开时）。
-            case MotionEventCompat.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(ev);
                 break;
 
@@ -473,7 +467,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        final int action = MotionEventCompat.getActionMasked(ev);
+        final int action = ev.getAction();
         //触摸点下标
         int pointerIndex = -1;
         //如果不可用，或者mTarget没有达到顶部,或者正在刷新，就不拦截事件,处理权交给子view
@@ -524,8 +518,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
             }
             //多点按下
-            case MotionEventCompat.ACTION_POINTER_DOWN: {
-                pointerIndex = MotionEventCompat.getActionIndex(ev);
+            case MotionEvent.ACTION_POINTER_DOWN: {
+                pointerIndex = ev.getActionIndex();
                 if (pointerIndex < 0) {
                     return false;
                 }
@@ -535,7 +529,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 break;
             }
             //多点抬起
-            case MotionEventCompat.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(ev);
                 break;
             //  抬起时复位
@@ -776,7 +770,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 当屏幕上有多个点被按住，松开其中一个点时触发（即非最后一个点被放开时）
      */
     private void onSecondaryPointerUp(MotionEvent ev) {
-        final int pointerIndex = MotionEventCompat.getActionIndex(ev);
+        final int pointerIndex = ev.getActionIndex();
         final int pointerId = ev.getPointerId(pointerIndex);
         if (pointerId == mActivePointerId) {
             // This was our active pointer going up. Choose a new
@@ -823,17 +817,31 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         }
     }
 
+    /**
+     * 刷新回调
+     */
     public interface OnRefreshListener {
+        /**
+         * 刷新回调
+         */
         void onRefresh();
     }
 
+    /**
+     * @author　　: 李坤
+     * 创建时间: 2018/9/3 17:18
+     * 邮箱　　：496546144@qq.com
+     * <p>
+     * 功能介绍：mTarget在垂直方向（-1）是否可以滚动
+     */
 
     public interface OnChildScrollUpCallback {
         /**
-         * 作者　　: 李坤
-         * 创建时间: 2017/5/3 0003 15:32
-         * <p>
-         * 方法功能：mTarget在垂直方向（-1）是否可以滚动,可以滚动说明没到顶部呢
+         * mTarget在垂直方向（-1）是否可以滚动,可以滚动说明没到顶部呢
+         *
+         * @param parent
+         * @param child
+         * @return
          */
         boolean canChildScrollUp(SwipeRefreshLayout parent, @Nullable View child);
     }
@@ -1004,6 +1012,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
 
     @Override
     public void setEnabled(boolean enabled) {
+        if (enabled == isEnabled()) {
+            return;
+        }
         super.setEnabled(enabled);
         if (!enabled) {
             reset();
