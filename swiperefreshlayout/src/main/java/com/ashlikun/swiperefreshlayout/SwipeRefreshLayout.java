@@ -377,6 +377,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
      * 创建时间: 2017/5/3 0003 15:32
      * <p>
      * 方法功能：mTarget在垂直方向（-1）是否可以滚动,可以滚动说明没到顶部呢
+     *
+     * @return true:不能下拉了，false：可以下拉
      */
 
     public boolean canChildScrollUp() {
@@ -387,7 +389,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             if (mTarget instanceof CoordinatorLayout) {
                 //兼容CoordinatorLayout
                 if (((CoordinatorLayout) mTarget).getChildCount() > 0) {
-                    return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() == 0;
+                    return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() != 0;
                 }
             }
         } catch (Exception e) {
