@@ -20,41 +20,40 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recycle"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#aa00ff"
-            android:padding="20dp">
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        <!--<android.support.v4.widget.NestedScrollView-->
+            <!--android:id="@+id/webView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#aa00ff">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="aaaaaaaaaaaaaaaaaaassss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss
-                    aaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssss" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="aaaaaaaaaaaaaaaaaaassss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssss-->
+                    <!--aaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssss" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-        </android.support.v4.widget.NestedScrollView>
+        <!--</android.support.v4.widget.NestedScrollView>-->
 
     </com.ashlikun.swiperefreshlayout.SwipeRefreshLayout>
 

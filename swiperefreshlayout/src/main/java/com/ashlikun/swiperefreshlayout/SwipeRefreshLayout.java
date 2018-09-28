@@ -40,20 +40,20 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @VisibleForTesting
     private static final String LOG_TAG = SwipeRefreshLayout.class.getSimpleName();
 
-    //默认刷新大小
+    /**
+     * 默认刷新大小
+     */
     private static final int DEFAULT_REFRESH_SIZE_DP = 30;
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
     private static final int INVALID_POINTER = -1;
     private static final float DRAG_RATE = .5f;
 
 
-    private static final int ANIMATE_TO_TRIGGER_DURATION = 200;
-
     private static final int DEFAULT_ANIMATE_DURATION = 300;
-    // Default background for the progress spinner
-    // Default offset in dips from the top of the view to where the progress spinner should stop
     private static final int DEFAULT_REFRESH_TARGET_OFFSET_DP = 64;
-    //动画时间
+    /**
+     * 动画时间
+     */
     private int mAnimateToStartDuration = DEFAULT_ANIMATE_DURATION;
     private int mAnimateToRefreshDuration = DEFAULT_ANIMATE_DURATION;
     private View mTarget; // 滑动的内容
@@ -209,7 +209,8 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
         switch (mRefreshStyle) {
-            case FLOAT://保证mRefreshView最后一个绘制
+            case FLOAT:
+                //保证mRefreshView最后一个绘制
                 if (mRefreshViewIndex < 0) {
                     return i;
                 } else if (i == childCount - 1) {
@@ -635,7 +636,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         //超过最大限制
         if (overscrollTop > mTotalDragDistance) {
             //直接刷新
-            setRefreshing(true, true /* notify */);
+            setRefreshing(true, true);
         } else {
             //没有超过，取消刷新，回弹
             // cancel refresh
@@ -1104,6 +1105,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
             mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
                     mTarget.getPaddingRight(), mTargetPaddingBottom);
+            mTargetPaddingBottom = Integer.MAX_VALUE;
         }
         clearAnimation();
         if (computeAnimateToCorrectDuration(from) <= 0) {
@@ -1170,7 +1172,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
-                if (mRefreshStyle != FLOAT) {
+                if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+                    mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                            mTarget.getPaddingRight(), mTargetPaddingBottom);
                     mTargetPaddingBottom = Integer.MAX_VALUE;
                 }
             }
@@ -1188,6 +1192,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
             mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
                     mTarget.getPaddingRight(), mTargetPaddingBottom);
+            mTargetPaddingBottom = Integer.MAX_VALUE;
         }
         clearAnimation();
         if (computeAnimateToStartDuration(from) <= 0) {
@@ -1213,7 +1218,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
             moveToStart(interpolatedTime);
-
         }
     };
     /**
@@ -1232,7 +1236,9 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
-                if (mRefreshStyle != FLOAT) {
+                if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
+                    mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                            mTarget.getPaddingRight(), mTargetPaddingBottom);
                     mTargetPaddingBottom = Integer.MAX_VALUE;
                 }
             }

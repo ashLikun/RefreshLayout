@@ -2,6 +2,7 @@ package com.ashlikun.refreshlayout;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -23,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         for (int i = 0; i < 40; i++) {
             list.add(i + "");
         }
-//        recyclerView = (RecyclerView) findViewById(R.id.recycle);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        recyclerView =  findViewById(R.id.recyclerView);
         refreshLayout.setOnRefreshListener(this);
-        //refreshLayout.setTotalDragDistance(400);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
+        refreshLayout.setTotalDragDistance(200);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
         // WebView webView = findViewById(R.id.webView);
         // webView.getSettings().setJavaScriptEnabled(true);
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        refreshLayout.setRefreshView(new NewVersionRefreshView(this),
 //                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
 //                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.FLOAT);
+        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
         refreshLayout.setColorSchemeColors(0xff234567, 0xff1129f9, 0xff345678);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                Toast.makeText(MainActivity.this, "aaa", Toast.LENGTH_SHORT).show();
 //                refreshLayout.postDelayed(this, 3000);
             }
-        }, 1000);
+        }, 200);
 //        refreshLayout.setRefreshing(true);
     }
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
-        }, 700);
+        }, 100);
     }
 
     public void onClick(View view) {
