@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
@@ -37,8 +36,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     private static final int[] LAYOUT_ATTRS = new int[]{
             android.R.attr.enabled
     };
-    @VisibleForTesting
-    private static final String LOG_TAG = SwipeRefreshLayout.class.getSimpleName();
 
     /**
      * 默认刷新大小
@@ -1086,6 +1083,10 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
         return p instanceof LayoutParams;
+    }
+
+    public View getRefreshView() {
+        return mRefreshView;
     }
 
     /********************************************************************************************
