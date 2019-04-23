@@ -25,9 +25,9 @@ android {
     }
 }
 dependencies {
-    api project(':swiperefreshlayout')
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api rootProject.ext.designVersion
-    api 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(':swiperefreshlayout')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.designVersion
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
 
