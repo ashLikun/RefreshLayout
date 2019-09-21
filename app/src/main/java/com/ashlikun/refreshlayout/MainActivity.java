@@ -3,14 +3,14 @@ package com.ashlikun.refreshlayout;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ashlikun.swiperefreshlayout.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout refreshLayout;
@@ -26,11 +26,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             list.add(i + "");
         }
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        recyclerView =  findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setTotalDragDistance(200);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
 //        adapter.notifyDataSetChanged();
         // WebView webView = findViewById(R.id.webView);
         // webView.getSettings().setJavaScriptEnabled(true);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
-        }, 100);
+        }, 10000);
     }
 
     public void onClick(View view) {

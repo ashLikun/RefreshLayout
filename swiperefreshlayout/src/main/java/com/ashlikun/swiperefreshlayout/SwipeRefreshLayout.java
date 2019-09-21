@@ -23,6 +23,8 @@ import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 /**
  * 作者　　: 李坤
  * 创建时间: 2017/5/9 13:27
@@ -388,7 +390,19 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             if (mTarget instanceof CoordinatorLayout) {
                 //兼容CoordinatorLayout
                 if (((CoordinatorLayout) mTarget).getChildCount() > 0) {
-                    return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() != 0;
+                    if (((CoordinatorLayout) mTarget).getChildAt(0) instanceof AppBarLayout) {
+                        return ((CoordinatorLayout) mTarget).getChildAt(0).getTop() != 0;
+                    } else {
+                        for (int i = 0; i < getChildCount(); i++) {
+                            View view = ((CoordinatorLayout) mTarget).getChildAt(i);
+                            if (view instanceof AppBarLayout) {
+                                return view.getTop() != 0;
+                            } else if (view instanceof ViewGroup) {
+                                view.canScrollVertically(-1);
+                            }
+                        }
+                    }
+
                 }
             }
         } catch (Exception e) {
@@ -703,8 +717,11 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
                 targetTop = mFrom + (int) ((mTotalDragDistance - mFrom) * interpolatedTime);
                 offset = targetTop - mTarget.getTop();
-                mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
-                        mTarget.getPaddingRight(), mTargetPaddingBottom + targetTop);
+                //padding直接一次性到刷新位置,防止包皮出现
+                if (mTarget.getPaddingBottom() != (int) (mTargetPaddingBottom + mTotalDragDistance)) {
+                    mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                            mTarget.getPaddingRight(), (int) (mTargetPaddingBottom + mTotalDragDistance));
+                }
                 break;
         }
         setTargetOffsetTopAndBottom(offset);
@@ -728,8 +745,12 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
                 targetTop = mFrom + (int) (-mFrom * interpolatedTime);
                 offset = targetTop - mTarget.getTop();
-                mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
-                        mTarget.getPaddingRight(), mTargetPaddingBottom + targetTop);
+                //padding一次性全部还原原始位置,防止包皮出现
+                if (mTargetPaddingBottom != Integer.MAX_VALUE) {
+                    mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
+                            mTarget.getPaddingRight(), mTargetPaddingBottom);
+                    mTargetPaddingBottom = Integer.MAX_VALUE;
+                }
                 break;
         }
         setTargetOffsetTopAndBottom(offset);
@@ -1238,11 +1259,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 }
             } else {
                 reset();
-                if (mRefreshStyle != FLOAT && mTargetPaddingBottom != Integer.MAX_VALUE) {
-                    mTarget.setPadding(mTarget.getPaddingLeft(), mTarget.getPaddingTop(),
-                            mTarget.getPaddingRight(), mTargetPaddingBottom);
-                    mTargetPaddingBottom = Integer.MAX_VALUE;
-                }
+
             }
         }
     };

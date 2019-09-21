@@ -3,10 +3,11 @@ package com.ashlikun.refreshlayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 /**
  * 作者　　: 李坤
@@ -25,14 +26,15 @@ public class TestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test, null);
         return new MyViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        TextView textView = holder.itemView.findViewById(R.id.textView);
+        textView.setText("aaaaaaaa" + position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
