@@ -311,13 +311,13 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             final int width = Math.max(0, getMeasuredWidth() - getPaddingLeft() - getPaddingRight()
                     - lp.leftMargin - lp.rightMargin);
             childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-        } else if(lp.width == LayoutParams.WRAP_CONTENT) {
+        } else if (lp.width == LayoutParams.WRAP_CONTENT) {
             //保证下拉控件全部展示，最大宽度为父控件的2倍
             childWidthMeasureSpec = getChildMeasureSpec(MeasureSpec.makeMeasureSpec(
                     MeasureSpec.getSize(widthMeasureSpec) * 2, MeasureSpec.AT_MOST),
                     getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin,
                     lp.width);
-        }else{
+        } else {
             childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY);
         }
 
@@ -328,14 +328,14 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                     - lp.topMargin - lp.bottomMargin);
             childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
                     height, MeasureSpec.EXACTLY);
-        } else if(lp.height == LayoutParams.WRAP_CONTENT) {
+        } else if (lp.height == LayoutParams.WRAP_CONTENT) {
             //保证下拉控件全部展示，最大高度为父控件的2倍
             childHeightMeasureSpec = getChildMeasureSpec(MeasureSpec.makeMeasureSpec(
                     MeasureSpec.getSize(heightMeasureSpec) * 2, MeasureSpec.AT_MOST),
                     getPaddingTop() + getPaddingBottom() +
                             lp.topMargin + lp.bottomMargin,
                     lp.height);
-        }else{
+        } else {
             childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
                     lp.height, MeasureSpec.EXACTLY);
         }
@@ -562,6 +562,7 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 onSecondaryPointerUp(ev);
                 break;
             //  抬起时复位
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
                 pointerIndex = ev.findPointerIndex(mActivePointerId);
                 if (pointerIndex < 0) {
@@ -579,8 +580,6 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
                 mActivePointerId = INVALID_POINTER;
                 return false;
             }
-            case MotionEvent.ACTION_CANCEL:
-                return false;
         }
 
         return true;
@@ -706,6 +705,14 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
             //计算开始拖拽的Y坐标
             mInitialMotionY = mInitialDownY + mTouchSlop;
             mIsBeingDragged = true;//开始拖拽
+            //请求父控件不要拦截事件
+            requestDisallowInterceptTouchEventmy(true);
+        }
+    }
+
+    private void requestDisallowInterceptTouchEventmy(boolean disallowIntercept) {
+        if (getParent() != null) {
+            getParent().requestDisallowInterceptTouchEvent(disallowIntercept);
         }
     }
 
