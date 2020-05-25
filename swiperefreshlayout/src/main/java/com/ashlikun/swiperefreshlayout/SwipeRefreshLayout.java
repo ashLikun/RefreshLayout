@@ -1093,11 +1093,16 @@ public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingPare
         clearAnimation();
     }
 
-
+    /**
+     * (android.os.Build.VERSION.SDK_INT < 21 && mTarget instanceof AbsListView)
+     * || (mTarget != null && !ViewCompat.isNestedScrollingEnabled(mTarget))
+     * 原本这样可能有问题
+     *
+     * @param b
+     */
     @Override
     public void requestDisallowInterceptTouchEvent(boolean b) {
-        if ((android.os.Build.VERSION.SDK_INT < 21 && mTarget instanceof AbsListView)
-                || (mTarget != null && !ViewCompat.isNestedScrollingEnabled(mTarget))) {
+        if ((android.os.Build.VERSION.SDK_INT < 21 && mTarget instanceof AbsListView)) {
         } else {
             super.requestDisallowInterceptTouchEvent(b);
         }
