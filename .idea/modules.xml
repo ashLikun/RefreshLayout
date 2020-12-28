@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RefreshLayout.iml" filepath="$PROJECT_DIR$/RefreshLayout.iml" group="RefreshLayout" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="RefreshLayout/app" />
-      <module fileurl="file://$PROJECT_DIR$/swiperefreshlayout/swiperefreshlayout.iml" filepath="$PROJECT_DIR$/swiperefreshlayout/swiperefreshlayout.iml" group="RefreshLayout/swiperefreshlayout" />
+      <module fileurl="file://$PROJECT_DIR$/RefreshLayout.iml" filepath="$PROJECT_DIR$/RefreshLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/RefreshLayout.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/RefreshLayout.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/swiperefreshlayout/RefreshLayout.swiperefreshlayout.iml" filepath="$PROJECT_DIR$/.idea/modules/swiperefreshlayout/RefreshLayout.swiperefreshlayout.iml" />
     </modules>
   </component>
 </project>

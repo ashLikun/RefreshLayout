@@ -1,7 +1,9 @@
 package com.ashlikun.refreshlayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout refreshLayout;
+    FrameLayout frameLayout;
     RecyclerView recyclerView;
     List<String> list = new ArrayList<>();
     TestAdapter adapter = new TestAdapter(list);
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             list.add(i + "");
         }
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        frameLayout = findViewById(R.id.frameLayout);
         recyclerView = findViewById(R.id.recyclerView);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setTotalDragDistance(200);
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        refreshLayout.setRefreshView(new NewVersionRefreshView(this),
 //                new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
 //                        SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
-        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
+//        refreshLayout.setRefreshStyle(SwipeRefreshLayout.NORMAL);
         refreshLayout.setColorSchemeColors(0xff234567, 0xff1129f9, 0xff345678);
 //        refreshLayout.setRefreshing(true);
         final View view = findViewById(R.id.aaaaa);
@@ -70,22 +74,45 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        refreshLayout.postDelayed(new Runnable() {
+        getData();
+    }
+
+    public int getRandom() {
+        int max = 30, min = 20;
+        return (int) (Math.random() * (max - min) + min);
+    }
+
+    private void getData() {
+        Log.e("getData", "isRefresh = " + refreshLayout.isRefreshing());
+        //开始网络请求
+        if (frameLayout.getVisibility() == View.GONE) {
+            frameLayout.setVisibility(View.VISIBLE);
+            refreshLayout.setRefreshing(false);
+        }
+        frameLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                adapter.notifyDataSetChanged();
+                //完成网络请求
                 refreshLayout.setRefreshing(false);
+
             }
-        }, 10000);
+        }, getRandom());
+
     }
 
     public void onClick(View view) {
-        refreshLayout.setRefreshing(true);
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(false);
-            }
-        }, 15);
+        Log.e("onClick", "isRefresh = " + refreshLayout.isRefreshing());
+        if (frameLayout.getVisibility() == View.GONE) {
+            frameLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onClick2(View view) {
+        Log.e("onClick2", "isRefresh = " + refreshLayout.isRefreshing());
+        if (!refreshLayout.isRefreshing()) {
+            frameLayout.setVisibility(View.VISIBLE);
+            refreshLayout.setRefreshing(true);
+            frameLayout.setVisibility(View.GONE);
+        }
     }
 }
